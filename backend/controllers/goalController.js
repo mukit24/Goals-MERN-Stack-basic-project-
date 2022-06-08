@@ -4,7 +4,7 @@ const ash = require('express-async-handler')
 // route GET /api/goals
 const getGoals = async (req, res) => {
     try {
-        const goals = await Goal.find({})
+        const goals = await Goal.find({user : req.user.id})
         res.status(210).json({
             status: 'Success',
             data: {
@@ -22,9 +22,12 @@ const getGoals = async (req, res) => {
 // @desc set goals
 // route POST /api/goals
 const setGoal = async (req, res) => {
-    const goal = new Goal(req.body)
+    
     try {
-        await goal.save()
+        const goal = await Goal.create({
+            text : req.body.text,
+            user : req.user.id
+        })
         res.status(210).json({
             status: 'Success',
             data: {

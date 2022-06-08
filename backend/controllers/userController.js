@@ -67,10 +67,15 @@ const loginUser = asyncHandler(async (req, res) => {
 })
 
 // @desc register user
-// route GET /api/user
+// route GET /api/user/me
 
 const getMe = asyncHandler(async (req, res) => {
-    res.json({ message: "user information" })
+    const {_id,name,email} = await User.findById(req.user.id)
+    res.status(201).json({
+        id: _id,
+        name,
+        email
+    })
 })
 
 //genertae jwt
